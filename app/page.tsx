@@ -1,101 +1,92 @@
-import Image from 'next/image';
+const features: { name: string; path: string; description: string }[] = [
+  // Add feature demos here as you build them:
+  // { name: 'My Feature', path: '/features/my-feature', description: 'What it does' },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{' '}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen bg-gray-950 text-gray-100">
+      <div className="mx-auto max-w-4xl px-6 py-20">
+        {/* Header */}
+        <div className="mb-16">
+          <h1 className="mb-3 text-4xl font-bold tracking-tight">Dev Sandbox</h1>
+          <p className="text-lg text-gray-400">
+            A feature lab for building and testing isolated demos in a production-grade environment.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Quality gates */}
+        <div className="mb-16">
+          <h2 className="mb-6 text-xs font-semibold uppercase tracking-widest text-gray-500">
+            Quality Gates
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { label: 'Editor', detail: 'ESLint + Prettier' },
+              { label: 'Commit', detail: 'Husky + lint-staged' },
+              { label: 'CI', detail: 'GitHub Actions' },
+            ].map(({ label, detail }) => (
+              <div key={label} className="rounded-lg border border-gray-800 bg-gray-900 p-4">
+                <div className="mb-1 text-sm font-medium text-gray-200">{label}</div>
+                <div className="text-xs text-gray-500">{detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature demos */}
+        <div className="mb-16">
+          <h2 className="mb-6 text-xs font-semibold uppercase tracking-widest text-gray-500">
+            Feature Demos
+          </h2>
+          {features.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-gray-800 p-10 text-center">
+              <p className="mb-2 text-sm text-gray-500">No feature demos yet.</p>
+              <p className="text-xs text-gray-600">
+                Add one at{' '}
+                <code className="rounded bg-gray-800 px-1 py-0.5 text-gray-400">
+                  app/features/your-feature/page.tsx
+                </code>
+              </p>
+            </div>
+          ) : (
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {features.map(({ name, path, description }) => (
+                <li key={path}>
+                  <a
+                    href={path}
+                    className="block rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-gray-700 hover:bg-gray-800"
+                  >
+                    <div className="mb-1 font-medium text-gray-100">{name}</div>
+                    <div className="text-sm text-gray-500">{description}</div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Quick commands */}
+        <div>
+          <h2 className="mb-6 text-xs font-semibold uppercase tracking-widest text-gray-500">
+            Quick Commands
+          </h2>
+          <div className="rounded-lg border border-gray-800 bg-gray-900 p-6 font-mono text-sm">
+            {[
+              ['npm run dev', 'Start dev server'],
+              ['npm run lint', 'Run ESLint'],
+              ['npm run format', 'Run Prettier'],
+              ['npm test', 'Run tests'],
+              ['npm run build', 'Production build'],
+            ].map(([cmd, desc]) => (
+              <div key={cmd} className="flex items-baseline gap-4 py-1">
+                <span className="text-blue-400">{cmd}</span>
+                <span className="text-gray-600">— {desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
