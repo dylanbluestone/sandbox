@@ -1,6 +1,9 @@
 const features: { name: string; path: string; description: string }[] = [
-  // Add feature demos here as you build them:
-  // { name: 'My Feature', path: '/features/my-feature', description: 'What it does' },
+  {
+    name: 'Age Gate',
+    path: '/features/age-gate',
+    description: 'Configurable age verification form with full edge-case handling.',
+  },
 ];
 
 export default function Home() {
