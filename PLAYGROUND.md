@@ -210,6 +210,93 @@ sandbox/
 
 ---
 
+## Feature Demos
+
+### Age Gate
+
+A production-quality age verification form with full edge-case handling, accessibility, and test coverage. Built as a reusable React component backed by pure TypeScript utility functions.
+
+**What it does**
+
+Renders a date-of-birth entry form (three dropdowns: Month / Day / Year). On submission it calculates the user's exact age and fires `onAgeVerified` or `onAgeDenied` depending on whether they meet the configured minimum age. Handles leap year birthdays, impossible dates (e.g. Feb 31), future dates, and the exact day-of-birthday boundary.
+
+**File locations**
+
+| File                             | Purpose                                                  |
+| -------------------------------- | -------------------------------------------------------- |
+| `lib/utils/ageUtils.ts`          | Pure TypeScript utilities — `calculateAge` and `isOfAge` |
+| `components/AgeGate.tsx`         | React component — form UI, validation, callbacks         |
+| `__tests__/ageUtils.test.ts`     | 38 unit tests for the utility functions                  |
+| `__tests__/AgeGate.test.tsx`     | 27 component tests using Testing Library                 |
+| `app/features/age-gate/page.tsx` | Minimal feature route at `/features/age-gate`            |
+| `app/demos/age-gate/page.tsx`    | Full interactive demo at `/demos/age-gate`               |
+
+**Run the demo locally**
+
+```bash
+npm run dev
+# then open http://localhost:3000/demos/age-gate
+```
+
+**Using the component**
+
+```tsx
+import AgeGate from '@/components/AgeGate';
+
+// Minimal usage
+<AgeGate
+  minAge={18}
+  onAgeVerified={() => setAllowed(true)}
+/>
+
+// Full usage
+<AgeGate
+  minAge={21}
+  onAgeVerified={() => router.push('/content')}
+  onAgeDenied={() => router.push('/underage')}
+  disabled={isLoading}
+  errorMessage="You must be 21 or older to access this content."
+  submitButtonText="Verify My Age"
+/>
+```
+
+**Available props**
+
+| Prop               | Type         | Required | Default                                 | Description                      |
+| ------------------ | ------------ | -------- | --------------------------------------- | -------------------------------- |
+| `minAge`           | `number`     | ✓        | —                                       | Minimum age in years             |
+| `onAgeVerified`    | `() => void` | ✓        | —                                       | Called when age qualifies        |
+| `onAgeDenied`      | `() => void` | —        | `undefined`                             | Called when age does not qualify |
+| `disabled`         | `boolean`    | —        | `false`                                 | Disables all form controls       |
+| `errorMessage`     | `string`     | —        | `"You must be at least {n} years old."` | Override the under-age error     |
+| `submitButtonText` | `string`     | —        | `"Verify Age"`                          | Override the button label        |
+
+**Utility functions**
+
+```ts
+import { calculateAge, isOfAge } from '@/lib/utils/ageUtils';
+
+// Returns exact age in whole years
+calculateAge(new Date('1990-06-15')); // e.g. 35
+calculateAge(new Date('1990-06-15'), new Date('2025-06-15')); // 35 — birthday today
+calculateAge(new Date('1990-06-15'), new Date('2025-06-14')); // 34 — birthday tomorrow
+
+// Returns true if dob meets the minimum age requirement
+isOfAge(new Date('2007-06-15'), 18); // true  — exactly 18 today
+isOfAge(new Date('2007-06-16'), 18); // false — turns 18 tomorrow
+```
+
+Both functions throw `TypeError` for invalid dates and `RangeError` for future dates or negative `minAge`.
+
+**Test coverage**
+
+| File               | Tests | What's covered                                                                                                                                                                                             |
+| ------------------ | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ageUtils.test.ts` | 38    | Standard ages, birthday boundary (today/tomorrow/yesterday), leap year (Feb 29 → Mar 1 convention), extreme ages (0–120 years), invalid/future dates, default parameter                                    |
+| `AgeGate.test.tsx` | 27    | Rendering, disabled state, empty input, future date, age pass/fail, exact-boundary, custom props, dynamic day list (Jan/Apr/Feb leap/non-leap), day reset on month change, error clearing, ARIA attributes |
+
+---
+
 ## Troubleshooting
 
 ### Pre-commit hook fails
