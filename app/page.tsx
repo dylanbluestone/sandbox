@@ -4,6 +4,11 @@ const features: { name: string; path: string; description: string }[] = [
     path: '/features/age-gate',
     description: 'Configurable age verification form with full edge-case handling.',
   },
+  {
+    name: 'Age Gate — Interactive Demo',
+    path: '/demos/age-gate',
+    description: '5 live configurations, props table, and code snippets.',
+  },
 ];
 
 export default function Home() {
